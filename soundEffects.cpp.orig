@@ -1,0 +1,42 @@
+#include "lab.h"
+
+void soundEffects() {
+
+	if (timeline == 1) {
+		system("aplay chirping.wav&");
+	}
+	
+	if (timeline == (sceneTwo-3)) {
+		system("aplay grass.wav&");
+	}
+	
+	if (timeline == (sceneTwo)) {
+		system("aplay grass.wav&");
+	}
+	
+	if (timeline == sceneThree) {
+		system("aplay pipe.wav&");
+	}
+	
+	if (timeline == (sceneFour-2)) {
+		system("aplay growl.wav&");
+	}
+	if (timeline == (sceneFour)) {
+		system("aplay growl.wav&");
+	}
+	
+	
+	/*
+	if (timeline == (sceneFour+3)) {
+		system("aplay growl.wav&");
+	}
+	*/
+	
+	
+	
+	
+	
+	
+	
+
+}

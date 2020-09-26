@@ -1,0 +1,112 @@
+#include "lab.h"
+/*Owner:Anusha*/
+/*This function is to call all other drawing functions for the second window.*/
+void drawCB2(Fl_Cairo_Window* cw,cairo_t* cr)
+{
+
+    if (timeline < sceneOne) {
+        drawBackground(cr);
+        drawBirds(cr);
+    }
+    
+     if (timeline >= sceneOne && timeline <= sceneTwo) {
+       drawBackground1(cr);
+       
+    }
+    
+     if (timeline > sceneTwo && timeline<= sceneThree) {
+       drawBackground2(cr);
+    }
+    
+     if (timeline > sceneThree && timeline<=sceneFour) {
+    drawBackground3(cr);
+    drawCloud(cr);
+    }
+     if (timeline > sceneFour) {
+    drawBackground3(cr);
+    drawCloud(cr);
+    }
+    
+    double x = 0.5;
+    double y = 1;
+    double sx = 0.5;
+    double sy = 0.5;
+    /* apply scaler the value for ty is in pixels */
+
+    static double tx = 0.0;
+    static double ty = scaler(5.0);
+    const double pixel = 1.0/WIDTH;
+    /* If statement that stops movement of the characters when it reaches a certain time */
+     cairo_scale(cr,sx,sy); //scales characters throughout the whole animation
+     /*When the timeline is less than 10 seconds, the goat rotates to reach better food in the pasture.*/
+     /*
+	The animation starts with scene 1 where there is a goat alone on the field.
+	\includegraphics[scale=0.5]{Scene1.png}
+	*/
+	/*The goat rotates to reach its food faster.*/
+    if (timeline < sceneOne) {
+        tx= tx+timeline;
+        cairo_translate(cr, -1, -1);
+        cairo_rotate(cr,((-2*M_PI)/180));
+        cairo_translate(cr,0.25*x,-1 *y);
+        drawGoat(cr,0.25*x,-1 *y);
+    }
+     //cairo_scale(cr,sx,sy);
+     /* When the timeline is in the second scene, the wolf approaches the goat.*/
+     /*
+	The animation continues to Scene 2 where there is a goat who is joined by a wolf on the screen.
+	\includegraphics[scale=0.5]{Scene2.png}
+	*/
+	/*The wolf's mouth is increasing in size as his appetite increases.*/
+    if (timeline >= sceneOne && timeline <= sceneTwo) {
+        tx= tx+timeline;
+        drawWolf(cr,.25*x,-1.5*y);
+        drawGoat(cr,.25*x,-1*y);
+      
+    }
+    //std::cout<<"tx is now: "<<tx<<std::endl;
+
+    cairo_translate(cr,tx,ty);
+  //  cairo_scale(cr,sx,sy);
+
+	/*When the timeline is in the third scene, the wolf and goat dance together.*/
+	/*
+	The animation continues with Scene 3 where the goat and wolf move together as they dance.
+	\includegraphics[scale=0.5]{Scene3.png}
+	*/
+    if (timeline > sceneTwo && timeline<= sceneThree) {
+        if (nopause) tx= tx+timeline;
+        cout <<tx<<endl;
+        //cairo_save(cr);
+        drawWolf(cr,.25*x,-1.5*y);
+        //cw2.redraw();
+
+        //cairo_restore(cr);
+
+        drawGoat(cr,.25*x,-1*y);
+    }
+    cairo_translate(cr,tx,ty);
+  //  cairo_scale(cr,sx,sy);
+    //std::cout<<"tx is now: "<<tx<<std::endl;
+
+	/*The fourth and final scene shows the dog attacking the wolf allowing the goat to escape.*/
+	/*
+	The animation ends with scene 4 where the dog chases the wolf and the goat gets to escape.
+	\includegraphics[scale=0.5]{Scene4.png}
+	*/
+    if (timeline > sceneFour) {
+        if (nopause) tx=tx+timeline;
+        drawWolf(cr,.25*x,-1.5*y);
+        drawGoat(cr,.25*x,-1*y);
+        //cairo_save(cr);
+        drawDog(cr,0.1*x,0.1*y);
+        //cairo_restore(cr);
+    }
+    cairo_translate(cr,tx,ty);
+   // cairo_scale(cr,sx,sy);
+
+
+
+
+}
+
